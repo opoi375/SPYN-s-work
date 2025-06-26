@@ -1,7 +1,8 @@
 using Script.Enum;
+using Script.Interface;
+using Script.Item;
 using Unity.VisualScripting;
 using UnityEngine;
-
 namespace Script.Player
 {
     public class PlayerControl:MonoBehaviour
@@ -10,6 +11,11 @@ namespace Script.Player
         private Transform leftHand;
         [SerializeField]
         private Transform rightHand;
+        
+        [SerializeField]
+        private Transform leftOrigin;
+        [SerializeField]
+        private Transform rightOrigin;
         
         
         private EHand handType = EHand.LeftHand;
@@ -28,6 +34,16 @@ namespace Script.Player
             if (!rightHand)
             {
                 rightHand = GameObject.Find("R_Hand_IK").transform;
+            }
+            
+            if (!leftOrigin)
+            {
+                leftOrigin = GameObject.Find("L_Hand_Origin").transform;
+            }
+            
+            if (!rightOrigin)
+            {
+                rightOrigin = GameObject.Find("R_Hand_Origin").transform;
             }
         }
         
@@ -56,6 +72,8 @@ namespace Script.Player
                 if (worldPosition.x < -0.2)
                 {
                     SwitchHand();
+                    //左手归位
+                    leftHand.position = leftOrigin.position;
                 }
             }
             else if (handType == EHand.RightHand)
@@ -65,6 +83,8 @@ namespace Script.Player
                 if (worldPosition.x > 0.2)
                 {
                     SwitchHand();
+                    //右手归位
+                    rightHand.position = rightOrigin.position;
                 }
             }
 
@@ -80,7 +100,19 @@ namespace Script.Player
             //切换手的类型
             handType = handType == EHand.LeftHand ? EHand.RightHand : EHand.LeftHand;
         }
-        
+
+        private Transform GetHand()
+        {
+            if (handType == EHand.LeftHand)
+            {
+                return leftHand;
+            }
+            else if (handType == EHand.RightHand)
+            {
+                return rightHand;
+            }
+            return null;
+        }
         
     }
 }
