@@ -35,5 +35,15 @@ namespace Script.Item
             ItemParent = null;
         }
         
+        private void OnDestroy()
+        {
+            Clear();
+        }
+        public void Clear()
+        {
+            ItemParent = null;
+            item = null;
+        }
     }
+    
 }

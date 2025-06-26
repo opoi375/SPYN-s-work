@@ -47,5 +47,14 @@ namespace Script.Player
             itemObject.FreeItem();
             itemObject = null;
         }
+        
+        private void OnDestroy()
+        {
+            Clear();
+        }
+        public void Clear()
+        {
+            itemObject = null;
+        }
     }
 }
